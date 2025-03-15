@@ -13,12 +13,12 @@ import pandas as pd
 import numpy as np
 
 # Load the trained model
-model_path = '/content/churn_prediction_model.pkl'
+model_path = 'churn_prediction_model.pkl'
 with open(model_path, 'rb') as file:
     model = pickle.load(file)
 
 # Load feature columns
-with open("/content/columns.json", "r") as f:
+with open("columns.json", "r") as f:
     columns = pd.read_json(f)["data_columns"]
 
 st.title("Customer Churn Prediction")
