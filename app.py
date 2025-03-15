@@ -7,7 +7,7 @@ Original file is located at
     https://colab.research.google.com/drive/1MdypSvOKEzG6jcLq0h6EZJaYbMkqb2l7
 """
 
-!pip install streamlit pandas numpy scikit-learn xgboost matplotlib seaborn imbalanced-learn
+pip install streamlit pandas numpy scikit-learn xgboost matplotlib seaborn imbalanced-learn
 
 import streamlit as st
 import pickle
