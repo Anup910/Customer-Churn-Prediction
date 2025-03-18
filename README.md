@@ -5,7 +5,7 @@ Creating churn prediction models involves using historical customer data to pred
 
 Consider an e-commerce company with historical data on how their clients have interacted with their services. The company wants to know the likelihood of customers churning so they can launch targeted marketing campaigns.
 
-# Feature Name	                            Description
+# Feature Name	               |             Description
 
 CustomerID---------------------->Unique customer ID
 
