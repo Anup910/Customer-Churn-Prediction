@@ -1,46 +1,122 @@
-# Customer-Churn-Prediction
+# Customer Churn Prediction — E‑Commerce Dataset 🛒📈
 
-Case Study of Customer Churn Prediction Model
-Creating churn prediction models involves using historical customer data to predict the likelihood of the current customer leaving or continuing with a particular service/product. The data used for the predictive models include product usage data and direct customer feedback. Besides, the predictive models identify the different trends and patterns in the data to forecast customer churn.
+[![Python](https://img.shields.io/badge/Python-3.8%2B-blue.svg)](https://www.python.org/) [![scikit-learn](https://img.shields.io/badge/scikit--learn-1.x-yellow.svg)](https://scikit-learn.org/stable/) [![XGBoost](https://img.shields.io/badge/XGBoost-1.x-orange.svg)](https://xgboost.readthedocs.io/) [![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 
-Consider an e-commerce company with historical data on how their clients have interacted with their services. The company wants to know the likelihood of customers churning so they can launch targeted marketing campaigns.
+---
 
-# Feature Name	               |             Description
+## 📘 Project Overview
 
-CustomerID---------------------->Unique customer ID
+This notebook performs **customer churn prediction** for an e-commerce dataset. The pipeline covers exploratory data analysis (EDA), preprocessing (handling missing values, encoding, scaling), class imbalance handling using **SMOTE**, model training (RandomForest, XGBoost), evaluation (accuracy, confusion matrix, classification report), and saving a production-ready model + metadata for deployment.
 
-Churn--------------------------->Flag indicating whether the customer churned (1) or not (0)
+The notebook also demonstrates exporting the trained model and feature column list to `end_to_end_deployment/models/` for use in a simple prediction API or web app.
 
-Tenure-------------------------->Tenure of the customer in the organization
+---
 
-PreferredLoginDevice------------>The preferred device used by the customer to log in (e.g., mobile, web)
+## 📂 Dataset
 
-CityTier------------------------>City tier classification (e.g., Tier 1, Tier 2, Tier 3)
+* Source file referenced in the notebook: `E_Commerce_Dataset.xlsx` (read via `pd.read_excel`).
+* Target variable used: `churn` (binary churn flag).
+* Example features typically include demographic, transaction and engagement attributes (numerical and categorical features).
 
-WarehouseToHome----------------->Distance between the warehouse and the customer’s home
+> If running locally, place `E_Commerce_Dataset.xlsx` in the same folder as the notebook or update the file path in the read cell.
 
-PreferredPaymentMode------------>Preferred payment method used by the customer (e.g., credit card, debit card, cash on delivery)
+---
 
-Gender-------------------------->The gender of the customer
+## 🔍 Exploratory Data Analysis (EDA)
 
-HourSpendOnApp------------------>Number of hours spent on the mobile application or website
+The notebook performs standard EDA including:
 
-NumberOfDeviceRegistered-------->Total number of devices registered to the customer’s account
+* Count plots for categorical columns and histograms for numeric columns.
+* Churn distribution visualizations across categories.
+* Missing value inspection and imputation (numeric columns filled with mean).
+* Basic correlation checks and visual diagnostics.
 
-PreferedOrderCat---------------->Preferred order category of the customer in the last month
+---
 
-SatisfactionScore--------------->Customer’s satisfaction score with the service
+## ⚙️ Preprocessing & Class Balancing
 
-MaritalStatus------------------->Marital status of the customer
+Preprocessing steps implemented in the notebook:
 
-NumberOfAddress----------------->Total number of addresses added to the customer’s account
+* Missing numeric values filled with column mean.
+* Categorical variables converted to numeric via one-hot encoding (`pd.get_dummies`).
+* Feature scaling where appropriate (StandardScaler used in pipeline snippets).
+* **SMOTE** (from `imblearn`) applied to training data to handle class imbalance.
+* Train/test split for evaluation.
 
-OrderAmountHikeFromlastYear----->Percentage increase in order value compared to last year
+---
 
-CouponUsed---------------------->Total number of coupons used by the customer in the last month
+## 🤖 Models & Training
 
-OrderCount---------------------->Total number of orders placed by the customer in the last month
+Models instantiated and evaluated in the notebook include:
 
-DaySinceLastOrder--------------->Number of days since the customer’s last order
+* **Random Forest Classifier**
+* **XGBoost (XGBClassifier)** — used as the final model in the notebook (saved to disk)
 
-CashbackAmount------------------>Average cashback received by the customer in the last month
+Evaluation uses `accuracy_score`, `classification_report`, and `confusion_matrix` to inspect performance and class-level precision/recall.
+
+---
+
+## 💾 Deployment Artifacts
+
+The notebook saves a finalized model and its column metadata for deployment:
+
+```
+end_to_end_deployment/models/churn_prediction_model.pkl
+end_to_end_deployment/models/columns.json
+```
+
+The `columns.json` file contains a `data_columns` list used to align incoming feature vectors before prediction.
+
+### Example: Load and predict with the saved model
+
+```python
+import pickle, json
+import numpy as np
+
+model = pickle.load(open('end_to_end_deployment/models/churn_prediction_model.pkl', 'rb'))
+cols = json.load(open('end_to_end_deployment/models/columns.json'))['data_columns']
+
+# sample input: dict mapping feature->value
+sample = {'age': 34, 'total_spent': 450.0, 'gender_male': 1, ...}
+# build feature vector in same order
+x = np.zeros(len(cols))
+for i, c in enumerate(cols):
+    if c in sample:
+        x[i] = sample[c]
+
+pred = model.predict(x.reshape(1, -1))
+print('churn prediction:', pred[0])
+```
+
+---
+
+## 📈 Results
+
+The notebook computes classification metrics and prints outcomes using scikit-learn utilities (`classification_report`, `confusion_matrix`). Results will depend on preprocessing and model hyperparameters; check the cells under "Evaluate the Best Model" for model-specific metrics produced when the notebook is run.
+
+---
+
+## 🔁 Reproducibility — Quick Setup
+
+### Install
+
+```bash
+python -m venv venv
+source venv/bin/activate   # Windows: venv\Scripts\activate
+pip install -r requirements.txt
+```
+
+### Suggested `requirements.txt`
+
+```
+pandas
+numpy
+scikit-learn
+xgboost
+imbalanced-learn
+openpyxl
+matplotlib
+seaborn
+```
+
+---
