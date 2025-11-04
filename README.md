@@ -59,8 +59,11 @@ XGBoost was selected as the final model due to its strong class imbalance handli
 Metric	  XGBoost	   Random Forest	   Logistic Regression
 
 1.Accuracy	 92.1%	    88.7%	               82.4%
+
 2.Precision	 91.3%	    87.9%	               80.2%
+
 3.Recall	   90.6%	    86.2%	               78.5%
+
 4.ROC-AUC	   0.956	    0.934	               0.881
 
 ## ✅ Key Insight:
