@@ -56,15 +56,15 @@ XGBoost was selected as the final model due to its strong class imbalance handli
 
 ## 📊 3. Results & Business Impact
 
-Metric	  XGBoost	   Random Forest	   Logistic Regression
+Metric	    | XGBoost	 |  Random Forest	 |  Logistic Regression
 
-1.Accuracy	 92.1%	    88.7%	               82.4%
+1.Accuracy	| 92.1%	   |    88.7%	       |      82.4%
 
-2.Precision	 91.3%	    87.9%	               80.2%
+2.Precision	| 91.3%	   |     87.9%	     |        80.2%
 
-3.Recall	   90.6%	    86.2%	               78.5%
+3.Recall	  | 90.6%	   |     86.2%	     |        78.5%
 
-4.ROC-AUC	   0.956	    0.934	               0.881
+4.ROC-AUC	  | 0.956	   |      0.934	     |     0.881
 
 ## ✅ Key Insight:
 The model successfully identifies high-risk customers with over 90% recall, enabling marketing teams to focus retention campaigns effectively.
